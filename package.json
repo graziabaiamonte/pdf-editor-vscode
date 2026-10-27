@@ -1,0 +1,71 @@
+{
+  "name": "pdf-editor",
+  "displayName": "PDF Editor (local)",
+  "description": "Open PDFs in VS Code: delete pages, add text, highlights, underlines, sticky notes and images.",
+  "version": "0.0.1",
+  "publisher": "local",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "vscode": "^1.140.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.cjs",
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "pdfEditor.editor",
+        "displayName": "PDF Editor",
+        "selector": [
+          {
+            "filenamePattern": "*.pdf"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "pdfEditor.merge",
+        "title": "Merge PDFs",
+        "category": "PDF Editor"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "pdfEditor.merge",
+          "when": "listMultiSelection && resourceExtname == .pdf",
+          "group": "7_modification"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "pdfEditor.merge",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test src/*.test.ts",
+    "package": "npm run build && vsce package --allow-missing-repository --skip-license"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.4.299"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/vscode": "^1.140.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}
