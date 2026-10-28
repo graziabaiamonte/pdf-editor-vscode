@@ -18,14 +18,14 @@ export function activate(context: vscode.ExtensionContext) {
 async function merge(clicked: vscode.Uri | undefined, selected: vscode.Uri[] | undefined) {
   const name = (u: vscode.Uri) => u.path.split('/').pop()!;
   const uris = (selected?.length ? selected : clicked ? [clicked] : [])
-    .filter(u => u.path.toLowerCase().endsWith('.pdf'))
+    .filter(u => /\.(pdf|png)$/i.test(u.path))
     .sort((a, b) => name(a).localeCompare(name(b), undefined, { numeric: true }));
-  if (uris.length < 2) return vscode.window.showWarningMessage('Select at least two PDF files to merge.');
+  if (uris.length < 2) return vscode.window.showWarningMessage('Select at least two PDF or PNG files to merge.');
 
   const target = await vscode.window.showSaveDialog({
     defaultUri: vscode.Uri.joinPath(uris[0], '..', 'merged.pdf'),
     filters: { PDF: ['pdf'] },
-    title: `Merge ${uris.length} PDFs`,
+    title: `Merge ${uris.length} files`,
   });
   if (!target) return;
 

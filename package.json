@@ -30,7 +30,7 @@
     "commands": [
       {
         "command": "pdfEditor.merge",
-        "title": "Merge PDFs",
+        "title": "Merge PDFs and PNGs",
         "category": "PDF Editor"
       }
     ],
@@ -38,7 +38,7 @@
       "explorer/context": [
         {
           "command": "pdfEditor.merge",
-          "when": "listMultiSelection && resourceExtname == .pdf",
+          "when": "listMultiSelection && resourceExtname =~ /^\\.(pdf|png)$/i",
           "group": "7_modification"
         }
       ],
